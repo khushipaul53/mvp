@@ -22,7 +22,7 @@
         android:id="@+id/fragment_btn_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/buttonSecondary"
+
         android:text="@string/btn_addText"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"

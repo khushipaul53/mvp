@@ -4,4 +4,5 @@ import com.example.assignment5mvp.data.model.Student;
 
 public interface ListFragmentClickListener {
     void onClick(String actionType, Student student);
+//    void updateStudent(final Student student);
 }

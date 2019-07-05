@@ -4,9 +4,8 @@ import com.example.assignment5mvp.data.db.DataBaseHandler;
 import com.example.assignment5mvp.data.model.Student;
 
 public interface DetailFragmentPresenter {
-  void validateText(String name, String rollno, String cls,DataBaseHandler dataBaseHandler,String actionType);
-  void onSuccess();
-  void onFailure();
-  void performDbOperation(DataBaseHandler dataBaseHandler,String service, Student student,String actionType);
+  boolean validateText(String name, String rollno, String cls,String actionType);
+  void insertStudent(Student student);
+
 
 }

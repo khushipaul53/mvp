@@ -37,6 +37,7 @@ package com.example.assignment5mvp.constant;
         public String FALSE="FALSE";
         public String ARRAY_LIST="ARRAYLIST";
         public String DB_OBJECT="DB_OBJECT";
+
     }
 
 

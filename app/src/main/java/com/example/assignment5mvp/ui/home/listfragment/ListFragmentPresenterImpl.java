@@ -1,59 +1,57 @@
 package com.example.assignment5mvp.ui.home.listfragment;
 
-import android.util.Log;
-
-import com.example.assignment5mvp.R;
+import com.example.assignment5mvp.constant.AppConstants;
 import com.example.assignment5mvp.data.db.DataBaseHandler;
+import com.example.assignment5mvp.data.db.DataManager;
 import com.example.assignment5mvp.data.model.Student;
 import com.example.assignment5mvp.ui.home.callback.OnDataSaveListener;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ListFragmentPresenterImpl implements ListFragmentPresenter, OnDataSaveListener {
-    private ListFragmentInteractor listFragmentInteractor;
+public class ListFragmentPresenterImpl implements ListFragmentPresenter {
+
     private ListFragmentView listFragmentView;
-   private OnDataSaveListener onDataSaveListener;
-    public ListFragmentPresenterImpl(ListFragmentView listFragmentView,ListFragmentInteractor listFragmentInteractor,OnDataSaveListener onDataSaveListener)
-    {
-      this.listFragmentInteractor=listFragmentInteractor;
-      this.listFragmentView=listFragmentView;
-      this.onDataSaveListener=onDataSaveListener;
-      listFragmentInteractor.instantiateListener(this,this);
+    private OnDataSaveListener onDataSaveListener;
+    private DataManager dataManager;
+    private DataBaseHandler dataBaseHandler;
+
+    public ListFragmentPresenterImpl(ListFragmentView listFragmentView, DataManager dataManager) {
+        this.listFragmentView = listFragmentView;
+        this.dataManager = dataManager;
     }
-
-
 
 
     @Override
-    public void performDbOperation(Student student, String actionType, DataBaseHandler dataBaseHandler) {
-     listFragmentInteractor.performDbOperation(student,actionType,dataBaseHandler);
-
+    public void deleteStudent(Student student) {
+        dataManager.deleteStudent(student);
     }
 
     @Override
-    public void onDataSavedSuccess(boolean isAddStudent, Student student) {
+    public void updateStudent(Student student) {
+        dataManager.updateStudent(student);
+
 
     }
+
 
     @Override
-    public void onDataSavedError(boolean isAddStudent) {
+    public void getStudentData() {
+        dataManager.getAllStudents(new DataManager.CallBackData() {
+            @Override
+            public void onSuccess(int statusCode, List<Student> list) {
+                if (statusCode == AppConstants.ErrorCode.SUCCESS) {
+                    listFragmentView.onStudentListArrived(list);
+                }
+            }
 
+            @Override
+            public void onFailure(int StatusCode) {
+                listFragmentView.onFailure(StatusCode);
+            }
+        });
     }
 
-    @Override
-    public void onDeleteSuccess() {
-          onDataSaveListener.onDeleteSuccess();
-    }
 
-    @Override
-    public void onDeleteError() {
-        onDataSaveListener.onDeleteError();
-
-    }
-
-    @Override
-    public void onFetchStudentList(ArrayList<Student> studentArrayList) {
-        onDataSaveListener.onFetchStudentList(studentArrayList);
-
-    }
 }
+
+

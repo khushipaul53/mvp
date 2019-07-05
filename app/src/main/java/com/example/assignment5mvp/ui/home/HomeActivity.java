@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.assignment5mvp.R;
@@ -14,7 +15,11 @@ import com.example.assignment5mvp.ui.home.adapter.ViewPagerAdapter;
 import com.example.assignment5mvp.ui.home.callback.DetailFragmentClickListener;
 import com.example.assignment5mvp.ui.home.callback.ListFragmentClickListener;
 import com.example.assignment5mvp.ui.home.detailfragment.DetailFragment;
+import com.example.assignment5mvp.ui.home.detailfragment.DetailFragmentPresenter;
+import com.example.assignment5mvp.ui.home.detailfragment.DetailFragmentPresenterImpl;
 import com.example.assignment5mvp.ui.home.listfragment.ListFragment;
+import com.example.assignment5mvp.ui.home.listfragment.ListFragmentPresenter;
+import com.example.assignment5mvp.ui.home.listfragment.ListFragmentPresenterImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +33,7 @@ public class HomeActivity extends AppCompatActivity implements DetailFragmentCli
     private ViewPager mViewPager;
     private Constants constants;
     private int mTabPosition;
+    private DetailFragmentPresenterImpl detailFragmentPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +48,14 @@ public class HomeActivity extends AppCompatActivity implements DetailFragmentCli
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(mViewPager);
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 //getting position of tab
                 mTabPosition = tab.getPosition();
                 if (mTabPosition == 1) {
-                    DetailFragment detailFragment= (DetailFragment) mFragmentsList.get(1);
+                    DetailFragment detailFragment = (DetailFragment) mFragmentsList.get(1);
                     detailFragment.clearEditText();
 
 
@@ -66,8 +73,7 @@ public class HomeActivity extends AppCompatActivity implements DetailFragmentCli
 
             }
         });
-                                           }
-
+    }
 
 
     //adding fragments to arraylist
@@ -93,39 +99,30 @@ public class HomeActivity extends AppCompatActivity implements DetailFragmentCli
     @Override
     public void myClick(String actionType, Student student) {
         ListFragment listFragment = (ListFragment) mFragmentsList.get(0);
-        if (actionType.equals(constants.ADD) || actionType.equals(constants.EDIT))
-        {
-            mViewPager.setCurrentItem(0);
-            listFragment.insertData(actionType, student);
-        }
-        else if(actionType.equals(constants.DELETE))
-        {
-            listFragment.deleteData();
-        }
+        if (actionType.equals(constants.ADD)) {
 
+            mViewPager.setCurrentItem(0);
+            listFragment.fetchAllDataFromDb();
+
+        }
     }
 
     @Override
     public void setService(String service) {
         ListFragment listFragment = (ListFragment) mFragmentsList.get(0);
-        listFragment.setService(service);
+
     }
 
     @Override
     public void onDBoperationError(String actionType) {
-        if(actionType.equals(constants.ADD))
-        {
-            Toast.makeText(this,getResources().getString(R.string.add_data_fail),Toast.LENGTH_SHORT).show();
+        if (actionType.equals(constants.ADD)) {
+            Toast.makeText(this, getResources().getString(R.string.add_data_fail), Toast.LENGTH_SHORT).show();
 
-        }
-        else if(actionType.equals(constants.EDIT))
-        {
-            Toast.makeText(this,getResources().getString(R.string.update_data_fail),Toast.LENGTH_SHORT).show();
+        } else if (actionType.equals(constants.EDIT)) {
+            Toast.makeText(this, getResources().getString(R.string.update_data_fail), Toast.LENGTH_SHORT).show();
 
-        }
-       else if(actionType.equals(constants.DELETE))
-        {
-            Toast.makeText(this,getResources().getString(R.string.delete_data_fail),Toast.LENGTH_SHORT).show();
+        } else if (actionType.equals(constants.DELETE)) {
+            Toast.makeText(this, getResources().getString(R.string.delete_data_fail), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -133,8 +130,8 @@ public class HomeActivity extends AppCompatActivity implements DetailFragmentCli
 
     @Override
     public void fetchDBList(ArrayList<Student> arrayList) {
-        ListFragment listFragment=(ListFragment)mFragmentsList.get(0);
-        listFragment.onFetchStudentList(arrayList);
+        ListFragment listFragment = (ListFragment) mFragmentsList.get(0);
+
 
     }
 
@@ -142,11 +139,25 @@ public class HomeActivity extends AppCompatActivity implements DetailFragmentCli
     public void onClick(String actionType, Student student) {
         mViewPager.setCurrentItem(1);
         DetailFragment detailFragment = (DetailFragment) mFragmentsList.get(1);
-        if (actionType.equals(constants.ADD)) {
-            detailFragment.clearEditText();
-        } else if (actionType.equals(constants.EDIT)) {
-            detailFragment.setEditText(student);
-        }
+
+
+        if (actionType.equals(constants.EDIT)) {
+            Log.d("tag", "khushi");
+            detailFragment.action(actionType);
+            detailFragment.updateStudentInfo(student);
+//
+
+        } else if (actionType.equals(constants.VIEW))
+            detailFragment.Viewinfo(student);
+//
+
     }
+
+//    @Override
+//    public void updateStudent(Student student) {
+//      DetailFragment fragment = (DetailFragment) mFragmentsList.get(1);
+//      fragment.updateStudentInfo(student);
+//    }
 }
+
 

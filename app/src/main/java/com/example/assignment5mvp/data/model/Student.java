@@ -1,24 +1,21 @@
 package com.example.assignment5mvp.data.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
-public class Student implements Parcelable {
-    private String name;
-    private String rollno;
-    private String cls;
-    private String oldRollno;
-    public static final Parcelable.Creator<Student> CREATOR = new Parcelable.Creator<Student>() {
-        @Override
-        public Student createFromParcel(Parcel in) {
-            return new Student(in);
-        }
+@Entity(tableName = "Student")
+public class Student{
+    @ColumnInfo(name="Name")
+    public String name;
+    @ColumnInfo(name="rollno")
+    public String rollno;
+    @ColumnInfo(name="class")
+    public String cls;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
 
-        @Override
-        public Student[] newArray(int size) {
-            return new Student[size];
-        }
-    };
+
     public Student()
     {}
     public Student(String stuName,String stuRollno,String stuClass)
@@ -44,22 +41,4 @@ public class Student implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(rollno);
-        dest.writeString(cls);
-        dest.writeString(oldRollno);
-    }
-    protected Student(Parcel in) {
-        name = in.readString();
-        rollno = in.readString();
-        cls = in.readString();
-        oldRollno=in.readString();
-    }
 }
