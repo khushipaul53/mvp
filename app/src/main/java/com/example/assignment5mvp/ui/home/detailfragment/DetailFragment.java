@@ -30,8 +30,6 @@ import java.util.ArrayList;
 
 
 public class DetailFragment extends Fragment implements DetailFragmentView, OnDataSaveListener {
-    private static DataBaseHandler dataBaseHandler;
-    DataReceiver dataReceiver = new DataReceiver();
     private EditText etName, etRollno, etCls;
     private Button btnSubmit;
     private String mName, mRollno, mCls;
@@ -40,7 +38,7 @@ public class DetailFragment extends Fragment implements DetailFragmentView, OnDa
     private String mAction;
     private Constants constants;
     private boolean flag = true;
-    private int status;
+
     private ArrayList<Student> mStudentArrayList;
     private DetailFragmentPresenter presenter;
     private Student updateStudent;
@@ -59,20 +57,6 @@ public class DetailFragment extends Fragment implements DetailFragmentView, OnDa
 
 
     }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//
-//
-//    }
-//
-//    @Override
-//    public void onStop() {
-//
-//        super.onStop();
-//
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

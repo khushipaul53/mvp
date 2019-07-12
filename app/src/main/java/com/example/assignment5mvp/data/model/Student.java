@@ -40,5 +40,13 @@ public class Student{
         return cls;
     }
 
-
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", rollno='" + rollno + '\'' +
+                ", cls='" + cls + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

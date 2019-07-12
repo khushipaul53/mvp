@@ -138,7 +138,7 @@ public class HomeActivity extends AppCompatActivity implements DetailFragmentCli
     @Override
     public void onClick(String actionType, Student student) {
         mViewPager.setCurrentItem(1);
-        DetailFragment detailFragment = (DetailFragment) mFragmentsList.get(1);
+        DetailFragment detailFragment =(DetailFragment) mFragmentsList.get(1);
 
 
         if (actionType.equals(constants.EDIT)) {

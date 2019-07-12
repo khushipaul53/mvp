@@ -1,19 +1,24 @@
 package com.example.assignment5mvp.ui.home.listfragment;
 
-import com.example.assignment5mvp.constant.AppConstants;
+import android.arch.lifecycle.LifecycleOwner;
+
+import com.example.assignment5mvp.MainViewModel;
 import com.example.assignment5mvp.data.db.DataBaseHandler;
 import com.example.assignment5mvp.data.db.DataManager;
 import com.example.assignment5mvp.data.model.Student;
 import com.example.assignment5mvp.ui.home.callback.OnDataSaveListener;
-
-import java.util.List;
 
 public class ListFragmentPresenterImpl implements ListFragmentPresenter {
 
     private ListFragmentView listFragmentView;
     private OnDataSaveListener onDataSaveListener;
     private DataManager dataManager;
+    private MainViewModel myMainmodel = new MainViewModel();
+    private LifecycleOwner owner;
+
     private DataBaseHandler dataBaseHandler;
+    private DataManager.CallBackData callBackData;
+
 
     public ListFragmentPresenterImpl(ListFragmentView listFragmentView, DataManager dataManager) {
         this.listFragmentView = listFragmentView;
@@ -33,22 +38,12 @@ public class ListFragmentPresenterImpl implements ListFragmentPresenter {
 
     }
 
-
     @Override
     public void getStudentData() {
-        dataManager.getAllStudents(new DataManager.CallBackData() {
-            @Override
-            public void onSuccess(int statusCode, List<Student> list) {
-                if (statusCode == AppConstants.ErrorCode.SUCCESS) {
-                    listFragmentView.onStudentListArrived(list);
-                }
-            }
 
-            @Override
-            public void onFailure(int StatusCode) {
-                listFragmentView.onFailure(StatusCode);
-            }
-        });
+
+        dataManager.getAllStudents();
+
     }
 
 

@@ -7,17 +7,20 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.assignment5mvp.MainViewModel;
 import com.example.assignment5mvp.R;
 import com.example.assignment5mvp.data.model.Student;
 import com.example.assignment5mvp.ui.home.callback.OnItemClickListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHolder> {
-    private ArrayList<Student> studentArrayList = new ArrayList<Student>();
+    private List<Student> studentArrayList = new ArrayList<Student>();
     private OnItemClickListener onItemClickListener;
+    private MainViewModel model=new MainViewModel();
 
-    public StudentAdapter(ArrayList<Student> arrayList) {
+    public StudentAdapter(List<Student>arrayList) {
         studentArrayList = arrayList;
     }
 
@@ -38,6 +41,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
         holder.textName.setText(s.getName());
         holder.textRollno.setText(s.getRollno());
         holder.textClass.setText(s.getClasses());
+
 
     }
 
